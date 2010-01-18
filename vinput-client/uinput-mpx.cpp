@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//#define MPX 1 // See make.sh
+#define MPX 1
 
 #include <cmath>
 #include <csignal>
@@ -172,7 +172,7 @@ void mainLoop(int sock)
 			unsigned char opcode = buffer[0], pointernum = buffer[1];
 			uint16_t xcoord = ntohs(*(reinterpret_cast<uint16_t*>(&buffer[2]))),
 						ycoord = ntohs(*(reinterpret_cast<uint16_t*>(&buffer[4])));
-			if (DEBUG) printf("ACTION %c POINTER %hhu [ %hu, %hu ]\n", opcode, pointernum, xcoord, ycoord);
+			if (Debug) printf("ACTION %c POINTER %hhu [ %hu, %hu ]\n", opcode, pointernum, xcoord, ycoord);
 			if (pointernum < POINTER_COUNT)
 			{
 				pointer = uinputs[pointernum];
@@ -223,7 +223,7 @@ void mainLoop(int sock)
 		// Lösche das UInput-Gerät
 		if (uinputs[i])
 		{
-			if (DEBUG) std::cerr << "deleting " << name << std::endl;
+			if (Debug) std::cerr << "deleting " << name << std::endl;
 			delete uinputs[i];
 			uinputs[i] = NULL;
 		}
@@ -239,7 +239,7 @@ void mainLoop(int sock)
 		// Lösche den Master
 		if (display)
 		{
-			if (DEBUG) std::cerr << "deleting master " << mname << std::endl;
+			if (Debug) std::cerr << "deleting master " << mname << std::endl;
 			xi2_remove_master(display, mname);
 		}
 	}
@@ -263,7 +263,7 @@ int main(int argc, char**argv)
 	{
 		if (strcmp(argv[i], "--debug") == 0)
 		{
-			DEBUG=1;
+			Debug=1;
 			std::cerr << "Debug" << std::endl;
 		}
 		#ifdef MPX
