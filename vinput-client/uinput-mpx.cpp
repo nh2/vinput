@@ -36,6 +36,7 @@
 #endif
 
 int Debug=0, Mpx=1;
+std::string addrStr="127.0.0.1";
 
 volatile static sig_atomic_t killed = 0;
 void schedule_terminate (int param)
@@ -266,6 +267,18 @@ int main(int argc, char**argv)
 			Debug=1;
 			std::cerr << "Debug" << std::endl;
 		}
+		if (strcmp(argv[i], "--addr") == 0)
+		{
+			if(i+1 < argc) {
+				addrStr=argv[i+1];
+				i++;
+				std::cerr << "Listen address set to " + addrStr << std::endl;
+			} else {
+				// TODO check for valid IP address
+				std::cerr << "Missing parameter for --addr!" << std::endl;
+				exit(1);
+			}
+		}
 		#ifdef MPX
 		if (strcmp(argv[i], "--nompx") == 0) 
 		{
@@ -288,8 +301,9 @@ int main(int argc, char**argv)
 	memset(&addr, 0, sizeof(struct sockaddr_in));
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(1243);
-	addr.sin_addr.s_addr = inet_addr("42.42.42.253");
-	//addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	addr.sin_addr.s_addr = inet_addr(addrStr.c_str());
+	if(Debug)
+		std::cerr << "Listening to " + addrStr << std::endl;
 	if (connect(s, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) == -1)
 	{
 		perror("Could not connect to server!");
