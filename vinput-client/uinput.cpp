@@ -32,7 +32,7 @@ UInputDeviceBase::UInputDeviceBase(const std::string &name, int bustype,
                                    void *extendDevStruct_params)
 {
 	// Open the input device
-	fd = open("/dev/input/uinput", O_WRONLY | O_NDELAY);
+	fd = open("/dev/uinput", O_WRONLY | O_NDELAY);
 	if (fd == -1)
 		throw UInputError("Could not access UInput subsystem");
 	if (initIoctls)
