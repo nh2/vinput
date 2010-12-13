@@ -164,6 +164,7 @@ int main (int argc, char** argv) {
 
 			case XI_ButtonPress:
 				printf("click - ");
+				printf("button: %d - ", evData->detail);
 				printf("abs X:%f Y:%f - ", evData->root_x, evData->root_y);
 				printf("win X:%f Y:%f\n", evData->event_x, evData->event_y);
 
